@@ -46,14 +46,20 @@ public class GameActivity extends AppCompatActivity {
         if (guess.length() == 1){
 
             char guessChar = guess.charAt(0);
-            if (!hangman.hasUsedLetter(guessChar)) {
-                hangman.guess(guessChar);
-                changeImage();
-                wordView.setText(hangman.getHiddenWord());
-                triesView.setText(Integer.toString(hangman.getTriesLeft()));
-                guessesView.setText(hangman.getBadLetterUsed());
+
+            if (Character.isLetter(guessChar)){
+
+                if (!hangman.hasUsedLetter(guessChar)) {
+                    hangman.guess(guessChar);
+                    changeImage();
+                    wordView.setText(hangman.getHiddenWord());
+                    triesView.setText(Integer.toString(hangman.getTriesLeft()));
+                    guessesView.setText(hangman.getBadLetterUsed());
+                }else {
+                    alreadyUsedToast();
+                }
             }else{
-                alreadyUsedToast();
+                onlyLettersToast();
             }
         }else{
            oneLetterToast();
@@ -125,6 +131,12 @@ public class GameActivity extends AppCompatActivity {
 
     private void alreadyUsedToast() {
         Toast myToast = Toast.makeText(this, "You have already used this letter!",
+                Toast.LENGTH_SHORT);
+        myToast.show();
+    }
+
+    private void onlyLettersToast() {
+        Toast myToast = Toast.makeText(this, "You can only use letters!",
                 Toast.LENGTH_SHORT);
         myToast.show();
     }
