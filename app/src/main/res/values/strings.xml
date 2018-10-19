@@ -1,3 +1,16 @@
 <resources>
-    <string name="app_name">HangManApp</string>
+    <string name="app_name">Hangman</string>
+    <string name="play_game">Play Game</string>
+    <string name="about">About</string>
+    <string name="tries_left">2</string>
+    <string name="tries_left_text">tries left</string>
+    <string name="guessed_letters">placeholder</string>
+    <string name="guess">Guess</string>
+    <string name="enter_letter">Enter letter</string>
+    <string name="the_word_was">The word was:</string>
+    <string name="remening_tries">Remening tries:</string>
+    <string name="back_to_the_mainmenu">Back to the mainmenu</string>
+    <string-array name="words">
+        <item></item>
+    </string-array>
 </resources>
