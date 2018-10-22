@@ -1,5 +1,7 @@
 package se.davin.hangmanapp;
 
+import android.content.res.Resources;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -14,9 +16,9 @@ public class HangMan {
     private List<Character> rightLetters = new ArrayList<>();
     private int triesLeft;
 
-    public HangMan() {
-        String[] array = {"bridge", "bone", "grapes", "bell", "jellyfish", "bunny", "truck", "grass", "door", "monkey", "spider", "bread", "ears", "bowl", "bracelet", "alligator", "bat", "clock", "lollipop", "moon", "doll", "orange", "ear", "basketball", "bike", "airplane", "pen", "inchworm", "seashell", "rocket", "cloud", "bear", "corn", "chicken", "purse", "glasses", "blocks", "carrot", "turtle", "pencil", "horse", "dinosaur", "head", "lamp", "snowman", "ant", "giraffe", "cupcake", "chair", "leaf", "bed", "snail", "baby", "balloon", "bus", "cherry", "crab", "football", "branch", "robot"};
-        words.addAll(Arrays.asList(array));
+    public HangMan(Resources r) {
+        String[] temp = r.getStringArray(R.array.words);
+        words.addAll(Arrays.asList(temp));
     }
 
     public String getBadLetterUsed(){
