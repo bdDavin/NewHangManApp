@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Hängagubben</string>
+    <string name="play_game">Starta spelet</string>
+    <string name="about">Om</string>
+    <string name="tries_left_text">försök kvar</string>
+    <string name="guess">Gissa</string>
+    <string name="enter_letter">Skriv en bokstav</string>
+    <string name="the_word_was">Ordet var:</string>
+    <string name="remening_tries">Försök kvar:</string>
+    <string name="back_to_the_mainmenu">Tillbaka till huvudmenyn</string>
+    <string name="new_game">Nytt spel</string>
+    <string-array name="words">
+        <item>buss</item>
+        <item>körsbär</item>
+        <item>krabba</item>
+        <item>fotboll</item>
+        <item>gren</item>
+        <item>robot</item>
+        <item>majs</item>
+        <item>kyckling</item>
+        <item>handväska</item>
+        <item>glasögon</item>
+        <item>morot</item>
+        <item>sköldpadda</item>
+        <item>penna</item>
+        <item>häst</item>
+        <item>dinosaurie</item>
+        <item>huvud</item>
+        <item>lampa</item>
+        <item>snögubbe</item>
+        <item>myra</item>
+        <item>giraff</item>
+        <item>muffins</item>
+        <item>stol</item>
+        <item>löv</item>
+        <item>säng</item>
+        <item>snigel</item>
+        <item>bebis</item>
+        <item>bro</item>
+        <item>ben</item>
+        <item>vindruva</item>
+        <item>bjällra</item>
+        <item>manet</item>
+        <item>kanin</item>
+        <item>lastbil</item>
+        <item>gräs</item>
+        <item>dör</item>
+        <item>apa</item>
+        <item>spindel</item>
+        <item>bröd</item>
+        <item>öron</item>
+        <item>skål</item>
+        <item>armband</item>
+        <item>krokodil</item>
+        <item>fladdermus</item>
+        <item>klocka</item>
+        <item>klubba</item>
+        <item>måne</item>
+        <item>docka</item>
+        <item>apelsin</item>
+        <item>öra</item>
+        <item>basketboll</item>
+        <item>cykel</item>
+        <item>flyplan</item>
+        <item>larv</item>
+        <item>snäckskal</item>
+        <item>raket</item>
+        <item>moln</item>
+        <item>björn</item>
+    </string-array>
+    <string name="you_lost">Du Förlorade!</string>
+    <string name="you_won">Du vann!!!</string>
+</resources>

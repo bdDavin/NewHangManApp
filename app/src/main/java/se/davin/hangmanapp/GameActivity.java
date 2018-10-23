@@ -3,6 +3,9 @@ package se.davin.hangmanapp;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -23,8 +26,13 @@ public class GameActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
+        Toolbar t = findViewById(R.id.toolbar);
+        setSupportActionBar(t);
 
-        hangman = new HangMan();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        hangman = new HangMan(getResources());
         hangman.newWord();
 
         imageView = findViewById(R.id.imageView);
@@ -37,6 +45,29 @@ public class GameActivity extends AppCompatActivity {
         wordView.setText(hangman.getHiddenWord());
         triesView.setText(Integer.toString(hangman.getTriesLeft()));
         guessesView.setText(hangman.getBadLetterUsed());
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.game_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.info:
+                showAbout(findViewById(R.id.button2));
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 
     public void guess(View view){
@@ -109,7 +140,7 @@ public class GameActivity extends AppCompatActivity {
 
     private void loser() {
         Intent intent = new Intent(this, ResultActivity.class);
-        intent.putExtra("result", "You lost!");
+        intent.putExtra("result", getResources().getString(R.string.you_lost));
         intent.putExtra("word", hangman.getRealWord());
         intent.putExtra("tries", hangman.getTriesLeft());
         startActivity(intent);
@@ -117,7 +148,7 @@ public class GameActivity extends AppCompatActivity {
 
     private void winner() {
         Intent intent = new Intent(this, ResultActivity.class);
-        intent.putExtra("result", "You won!!!");
+        intent.putExtra("result", getResources().getString(R.string.you_won));
         intent.putExtra("word", hangman.getRealWord());
         intent.putExtra("tries", hangman.getTriesLeft());
         startActivity(intent);
@@ -139,5 +170,11 @@ public class GameActivity extends AppCompatActivity {
         Toast myToast = Toast.makeText(this, "You can only use letters!",
                 Toast.LENGTH_SHORT);
         myToast.show();
+    }
+
+    public void showAbout(View view){
+        Intent intent = new Intent(this, AboutActivity.class);
+        startActivity(intent);
+
     }
 }

@@ -2,15 +2,77 @@
     <string name="app_name">Hangman</string>
     <string name="play_game">Play Game</string>
     <string name="about">About</string>
-    <string name="tries_left">2</string>
+    <string name="tries_left" translatable="false">2</string>
     <string name="tries_left_text">tries left</string>
-    <string name="guessed_letters">placeholder</string>
+    <string name="guessed_letters" translatable="false">placeholder</string>
     <string name="guess">Guess</string>
     <string name="enter_letter">Enter letter</string>
     <string name="the_word_was">The word was:</string>
     <string name="remening_tries">Remening tries:</string>
     <string name="back_to_the_mainmenu">Back to the mainmenu</string>
+    <string name="new_game">New game</string>
+    <string name="you_lost">You lost!</string>
+    <string name="you_won">You won!!!</string>
+    <string name="back_arrow" translatable="false">back_arrow</string>
     <string-array name="words">
-        <item></item>
+        <item>bus</item>
+        <item>cherry</item>
+        <item>crab</item>
+        <item>football</item>
+        <item>branch</item>
+        <item>robot</item>
+        <item>corn</item>
+        <item>chicken</item>
+        <item>purse</item>
+        <item>glasses</item>
+        <item>blocks</item>
+        <item>carrot</item>
+        <item>turtle</item>
+        <item>pencil</item>
+        <item>horse</item>
+        <item>dinosaur</item>
+        <item>head</item>
+        <item>lamp</item>
+        <item>snowman</item>
+        <item>ant</item>
+        <item>giraffe</item>
+        <item>cupcake</item>
+        <item>chair</item>
+        <item>leaf</item>
+        <item>bed</item>
+        <item>snail</item>
+        <item>baby</item>
+        <item>bridge</item>
+        <item>bone</item>
+        <item>grapes</item>
+        <item>bell</item>
+        <item>jellyfish</item>
+        <item>bunny</item>
+        <item>truck</item>
+        <item>grass</item>
+        <item>door</item>
+        <item>monkey</item>
+        <item>spider</item>
+        <item>bread</item>
+        <item>ears</item>
+        <item>bowl</item>
+        <item>bracelet</item>
+        <item>alligator</item>
+        <item>bat</item>
+        <item>clock</item>
+        <item>lollipop</item>
+        <item>moon</item>
+        <item>doll</item>
+        <item>orange</item>
+        <item>ear</item>
+        <item>basketball</item>
+        <item>bike</item>
+        <item>airplane</item>
+        <item>pen</item>
+        <item>inchworm</item>
+        <item>seashell</item>
+        <item>rocket</item>
+        <item>cloud</item>
+        <item>bear</item>
     </string-array>
 </resources>
