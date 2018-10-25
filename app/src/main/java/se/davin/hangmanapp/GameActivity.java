@@ -12,15 +12,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.squareup.picasso.Picasso;
+
 public class GameActivity extends AppCompatActivity {
 
     private HangMan hangman;
 
-    protected ImageView imageView;
-    protected TextView wordView;
-    protected TextView triesView;
-    protected TextView guessesView;
-    protected EditText input;
+    private ImageView imageView;
+    private TextView wordView;
+    private TextView triesView;
+    private TextView guessesView;
+    private EditText input;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,10 +43,14 @@ public class GameActivity extends AppCompatActivity {
         guessesView = findViewById(R.id.guessesView);
         input = findViewById(R.id.userInput);
 
-        imageView.setImageResource(R.drawable.hang10);
+        Picasso.get()
+                .load("https://bddavin.github.io/HangManApp/hang10.gif")
+                .into(imageView);
+
         wordView.setText(hangman.getHiddenWord());
         triesView.setText(Integer.toString(hangman.getTriesLeft()));
         guessesView.setText(hangman.getBadLetterUsed());
+
     }
 
     @Override
@@ -109,31 +115,49 @@ public class GameActivity extends AppCompatActivity {
         int i = hangman.getTriesLeft();
         switch (i){
             case 1:
-                imageView.setImageResource(R.drawable.hang1);
+                Picasso.get()
+                        .load("https://bddavin.github.io/HangManApp/hang1.gif")
+                        .into(imageView);
                 break;
             case 2:
-                imageView.setImageResource(R.drawable.hang2);
+                Picasso.get()
+                        .load("https://bddavin.github.io/HangManApp/hang2.gif")
+                        .into(imageView);
                 break;
             case 3:
-                imageView.setImageResource(R.drawable.hang3);
+                Picasso.get()
+                        .load("https://bddavin.github.io/HangManApp/hang3.gif")
+                        .into(imageView);
                 break;
             case 4:
-                imageView.setImageResource(R.drawable.hang4);
+                Picasso.get()
+                        .load("https://bddavin.github.io/HangManApp/hang4.gif")
+                        .into(imageView);
                 break;
             case 5:
-                imageView.setImageResource(R.drawable.hang5);
+                Picasso.get()
+                        .load("https://bddavin.github.io/HangManApp/hang5.gif")
+                        .into(imageView);
                 break;
             case 6:
-                imageView.setImageResource(R.drawable.hang6);
+                Picasso.get()
+                        .load("https://bddavin.github.io/HangManApp/hang6.gif")
+                        .into(imageView);
                 break;
             case 7:
-                imageView.setImageResource(R.drawable.hang7);
+                Picasso.get()
+                        .load("https://bddavin.github.io/HangManApp/hang7.gif")
+                        .into(imageView);
                 break;
             case 8:
-                imageView.setImageResource(R.drawable.hang8);
+                Picasso.get()
+                        .load("https://bddavin.github.io/HangManApp/hang8.gif")
+                        .into(imageView);
                 break;
             case 9:
-                imageView.setImageResource(R.drawable.hang9);
+                Picasso.get()
+                        .load("https://bddavin.github.io/HangManApp/hang9.gif")
+                        .into(imageView);
                 break;
         }
     }
