@@ -71,17 +71,11 @@ public class HangMan {
     }
 
     public boolean hasLost(){
-        if (triesLeft == 0){
-            return true;
-        }
-        return false;
+        return triesLeft == 0;
     }
 
     public boolean hasUsedLetter(char c){
-        if (rightLetters.contains(c) || wrongLetters.contains(c)){
-            return true;
-        }
-        return false;
+        return rightLetters.contains(c) || wrongLetters.contains(c);
     }
 
     public boolean hasWon(){

@@ -44,7 +44,7 @@
         app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
     <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/radioGroup"
+        android:id="@+id/themeRadio"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -56,21 +56,23 @@
         app:layout_constraintTop_toTopOf="@+id/textView5">
 
         <RadioButton
-            android:id="@+id/radioButton"
+            android:id="@+id/defaultTheme"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:text="Dark"
+            android:onClick="onRadioButtonClicked"
+            android:text="Default"
             app:layout_constraintStart_toEndOf="@+id/textView5"
             app:layout_constraintTop_toTopOf="@+id/textView5" />
 
         <RadioButton
-            android:id="@+id/radioButton2"
+            android:id="@+id/defaultHallo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
+            android:onClick="onRadioButtonClicked"
             android:text="Halloween"
-            app:layout_constraintStart_toEndOf="@+id/radioButton"
-            app:layout_constraintTop_toTopOf="@+id/radioButton" />
+            app:layout_constraintStart_toEndOf="@+id/defaultTheme"
+            app:layout_constraintTop_toTopOf="@+id/defaultTheme" />
     </RadioGroup>
 </android.support.constraint.ConstraintLayout>

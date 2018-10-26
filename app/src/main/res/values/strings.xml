@@ -14,6 +14,7 @@
     <string name="you_lost">You lost!</string>
     <string name="you_won">You won!!!</string>
     <string name="back_arrow" translatable="false">back_arrow</string>
+    <string name="preference_theme">false</string>
     <string-array name="words">
         <item>bus</item>
         <item>cherry</item>
