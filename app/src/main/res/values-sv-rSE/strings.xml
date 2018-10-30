@@ -71,4 +71,8 @@
     </string-array>
     <string name="you_lost">Du Förlorade!</string>
     <string name="you_won">Du vann!!!</string>
+    <string name="made_by_ben_davin">Gjord av Ben Davin</string>
+    <string name="theme">Tema</string>
+    <string name="standard">Standard</string>
+    <string name="halloween">Halloween</string>
 </resources>

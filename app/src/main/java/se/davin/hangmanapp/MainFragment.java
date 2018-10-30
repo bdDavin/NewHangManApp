@@ -14,13 +14,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-public class MainActivity extends Fragment implements View.OnClickListener{
+public class MainFragment extends Fragment implements View.OnClickListener{
 
-    public MainActivity() {}
+    public MainFragment() {}
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.activity_main, container, false);
+        View v = inflater.inflate(R.layout.fragment_main, container, false);
 
         Button playButton = v.findViewById(R.id.playButton);
         playButton.setOnClickListener(this);
@@ -71,7 +71,7 @@ public class MainActivity extends Fragment implements View.OnClickListener{
     }
 
     public void playGame(){
-        GameActivity fragment = new GameActivity();
+        GameFragment fragment = new GameFragment();
 
         FragmentManager fM = getFragmentManager();
         FragmentTransaction fT = fM.beginTransaction();
@@ -82,7 +82,7 @@ public class MainActivity extends Fragment implements View.OnClickListener{
     }
 
     public void showAbout(){
-        AboutActivity fragment = new AboutActivity();
+        AboutFragment fragment = new AboutFragment();
 
         FragmentManager fM = getFragmentManager();
         FragmentTransaction fT = fM.beginTransaction();

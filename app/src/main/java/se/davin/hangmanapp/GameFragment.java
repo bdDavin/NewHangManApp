@@ -24,7 +24,7 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class GameActivity extends Fragment implements View.OnClickListener {
+public class GameFragment extends Fragment implements View.OnClickListener {
 
     private HangMan hangman = HangMan.getInstance();
 
@@ -37,11 +37,11 @@ public class GameActivity extends Fragment implements View.OnClickListener {
     private SharedPreferences sh;
     private boolean theme;
 
-    public GameActivity() {}
+    public GameFragment() {}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.activity_game, container, false);
+        View v = inflater.inflate(R.layout.fragment_game, container, false);
 
         Button guessButton = v.findViewById(R.id.guessButton);
         guessButton.setOnClickListener(this);
@@ -161,7 +161,7 @@ public class GameActivity extends Fragment implements View.OnClickListener {
 
     private void loser() {
         hangman.setResult(false);
-        ResultActivity fragment = new ResultActivity();
+        ResultFragment fragment = new ResultFragment();
 
         FragmentManager fM = getFragmentManager();
         FragmentTransaction fT = fM.beginTransaction();
@@ -173,7 +173,7 @@ public class GameActivity extends Fragment implements View.OnClickListener {
 
     private void winner() {
         hangman.setResult(true);
-        ResultActivity fragment = new ResultActivity();
+        ResultFragment fragment = new ResultFragment();
 
         FragmentManager fM = getFragmentManager();
         FragmentTransaction fT = fM.beginTransaction();
@@ -202,7 +202,7 @@ public class GameActivity extends Fragment implements View.OnClickListener {
     }
 
     public void showAbout(){
-        AboutActivity fragment = new AboutActivity();
+        AboutFragment fragment = new AboutFragment();
 
         FragmentManager fM = getFragmentManager();
         FragmentTransaction fT = fM.beginTransaction();

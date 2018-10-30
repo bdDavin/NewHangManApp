@@ -17,7 +17,7 @@ public class FragHolderActivity extends AppCompatActivity {
         Toolbar t = findViewById(R.id.toolbar);
         setSupportActionBar(t);
 
-        MainActivity fragment = new MainActivity();
+        MainFragment fragment = new MainFragment();
         FragmentManager fM = getSupportFragmentManager();
         FragmentTransaction fT = fM.beginTransaction();
 

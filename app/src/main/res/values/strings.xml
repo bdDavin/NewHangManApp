@@ -14,7 +14,10 @@
     <string name="you_lost">You lost!</string>
     <string name="you_won">You won!!!</string>
     <string name="back_arrow" translatable="false">back_arrow</string>
-    <string name="preference_theme">false</string>
+    <string name="made_by_ben_davin">Made by Ben Davin</string>
+    <string name="theme">Theme</string>
+    <string name="standard">Default</string>
+    <string name="halloween">Halloween</string>
     <string-array name="words">
         <item>bus</item>
         <item>cherry</item>
