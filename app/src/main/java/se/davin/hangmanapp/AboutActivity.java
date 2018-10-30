@@ -1,46 +1,69 @@
 package se.davin.hangmanapp;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.RadioButton;
 
-public class AboutActivity extends AppCompatActivity {
+public class AboutActivity extends Fragment implements View.OnClickListener {
 
     private SharedPreferences sh;
     private SharedPreferences.Editor editor;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_about);
-        Toolbar t = findViewById(R.id.toolbar);
-        setSupportActionBar(t);
+    public AboutActivity() {}
 
-        sh = getSharedPreferences("settings", MODE_PRIVATE);
-        editor = sh.edit();
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View v = inflater.inflate(R.layout.activity_about, container, false);
+
+        Button playButton = v.findViewById(R.id.defaultTheme);
+        playButton.setOnClickListener(this);
+
+        Button showButton = v.findViewById(R.id.halloweenTheme);
+        showButton.setOnClickListener(this);
+
+        setHasOptionsMenu(true);
+        return v;
     }
 
-    public void onRadioButtonClicked(View view) {
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        sh = getActivity().getSharedPreferences("settings", Context.MODE_PRIVATE);
+        editor = sh.edit();
 
-        boolean checked = ((RadioButton) view).isChecked();
+        boolean theme = sh.getBoolean("theme", false);
 
-        switch(view.getId()) {
+        RadioButton r1 = getView().findViewById(R.id.defaultTheme);
+        RadioButton r2 = getView().findViewById(R.id.halloweenTheme);
+        if (theme){
+            r2.setChecked(true);
+        }else {
+            r1.setChecked(true);
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        boolean checked = ((RadioButton) v).isChecked();
+
+        switch(v.getId()) {
             case R.id.defaultTheme:
                 if (checked)
                     editor.putBoolean("theme", false);
-                    editor.apply();
-                    RadioButton b1 = findViewById(R.id.defaultTheme);
-                    b1.toggle();
-                    break;
-            case R.id.defaultHallo:
+                editor.apply();;
+                break;
+            case R.id.halloweenTheme:
                 if (checked)
                     editor.putBoolean("theme", true);
-                    editor.apply();
-                    RadioButton b2 = findViewById(R.id.defaultHallo);
-                    b2.toggle();
+                editor.apply();
                 break;
         }
     }

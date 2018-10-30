@@ -1,9 +1,6 @@
 package se.davin.hangmanapp;
 
-import android.content.res.Resources;
-
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -15,14 +12,37 @@ public class HangMan {
     private List<Character> wrongLetters = new ArrayList<>();
     private List<Character> rightLetters = new ArrayList<>();
     private int triesLeft;
+    private boolean win = false;
 
-    public HangMan(Resources r) {
-        String[] temp = r.getStringArray(R.array.words);
-        words.addAll(Arrays.asList(temp));
+    private final static HangMan instance = new HangMan();
+
+    public static HangMan getInstance(){
+        return instance;
+    }
+
+    private HangMan() { }
+
+    public void setResult(boolean i){
+        if (i){
+            win = true;
+        }
+    }
+
+    public boolean getResult(){
+        return win;
+    }
+
+    public void setWord(String word) {
+        this.word = word;
+    }
+
+    public void setWords(ArrayList<String> words) {
+        this.words = words;
     }
 
     public String getBadLetterUsed(){
         String wrongLettersString = "";
+
         for (int i = 0; i < wrongLetters.size(); i++) {
             wrongLettersString += wrongLetters.get(i);
             if (i != wrongLetters.size() - 1){
@@ -34,6 +54,7 @@ public class HangMan {
 
     public String getHiddenWord(){
         String hiddenWord = "";
+
         for (int i = 0; i < word.length(); i++) {
             if (foundLetters[i]) {
                 hiddenWord += word.charAt(i);
@@ -46,7 +67,6 @@ public class HangMan {
 
     public String getRealWord(){
         return word;
-
     }
 
     public int getTriesLeft(){
@@ -55,6 +75,7 @@ public class HangMan {
 
     public void guess(char guess){
         boolean foundIt = false;
+
         for (int i = 0; i < word.length(); i++) {
             char c = word.charAt(i);
             if (guess == c) {
@@ -90,17 +111,19 @@ public class HangMan {
     }
 
     public void newWord(){
-        Random r = new Random();
-        int randomInt = r.nextInt((words.size()));
-        this.word = words.get(randomInt);
+        if (word == null) {
+            Random r = new Random();
+            int randomInt = r.nextInt((words.size()));
+            word = words.get(randomInt);
 
-        rightLetters.clear();
-        wrongLetters.clear();
-        triesLeft = 10;
+            rightLetters.clear();
+            wrongLetters.clear();
+            triesLeft = 10;
 
-        this.foundLetters = new boolean[word.length()];
-        for (int i = 0; i < word.length(); i++) {
-            foundLetters[i] = false;
+            foundLetters = new boolean[word.length()];
+            for (int i = 0; i < word.length(); i++) {
+                foundLetters[i] = false;
+            }
         }
     }
 }

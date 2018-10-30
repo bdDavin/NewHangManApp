@@ -1,13 +1,19 @@
 package se.davin.hangmanapp;
 
-import android.content.Intent;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -15,9 +21,12 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
-public class GameActivity extends AppCompatActivity {
+import java.util.ArrayList;
+import java.util.Arrays;
 
-    private HangMan hangman;
+public class GameActivity extends Fragment implements View.OnClickListener {
+
+    private HangMan hangman = HangMan.getInstance();
 
     private ImageView imageView;
     private TextView wordView;
@@ -28,94 +37,91 @@ public class GameActivity extends AppCompatActivity {
     private SharedPreferences sh;
     private boolean theme;
 
+    public GameActivity() {}
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_game);
-        Toolbar t = findViewById(R.id.toolbar);
-        setSupportActionBar(t);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View v = inflater.inflate(R.layout.activity_game, container, false);
 
-        sh = getSharedPreferences("settings", MODE_PRIVATE);
+        Button guessButton = v.findViewById(R.id.guessButton);
+        guessButton.setOnClickListener(this);
+        setHasOptionsMenu(true);
+        return v;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        sh = getActivity().getSharedPreferences("settings", Context.MODE_PRIVATE);
         theme = sh.getBoolean("theme", false);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-
-        hangman = new HangMan(getResources());
+        String[] temp = getResources().getStringArray(R.array.words);
+        ArrayList<String> words = new ArrayList<>(Arrays.asList(temp));
+        hangman.setWords(words);
         hangman.newWord();
 
-        imageView = findViewById(R.id.imageView);
-        wordView = findViewById(R.id.wordView);
-        triesView = findViewById(R.id.triesIntView);
-        guessesView = findViewById(R.id.guessesView);
-        input = findViewById(R.id.userInput);
-        if (theme){
-            Picasso.get()
-                    .load("https://bddavin.github.io/HangManApp/hangH10.png")
-                    .into(imageView);
-        }else {
-            Picasso.get()
-                    .load("https://bddavin.github.io/HangManApp/hang10.gif")
-                    .into(imageView);
-        }
+        imageView = getView().findViewById(R.id.imageView);
+        wordView = getView().findViewById(R.id.wordView);
+        triesView = getView().findViewById(R.id.triesIntView);
+        guessesView = getView().findViewById(R.id.guessesView);
+        input = getView().findViewById(R.id.userInput);
+
+        changeImage(theme);
+
         wordView.setText(hangman.getHiddenWord());
         triesView.setText(Integer.toString(hangman.getTriesLeft()));
         guessesView.setText(hangman.getBadLetterUsed());
-
     }
 
     @Override
-    protected void onResume() {
+    public void onResume() {
         super.onResume();
         theme = sh.getBoolean("theme", false);
-        if (theme){
-            changeImageHallowen();
-        }else {
-            changeImageDefault();
+        changeImage(theme);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.guessButton:
+                guessButton();
+                break;
+            default:
+                break;
         }
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.game_menu, menu);
-        return true;
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        menu.clear();
+        inflater.inflate(R.menu.game_menu, menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.info:
-                showAbout(findViewById(R.id.button2));
+                showAbout();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
-    @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return true;
-    }
-
-    public void guess(View view){
+    public void guessButton(){
 
         String guess = input.getText().toString();
 
         if (guess.length() == 1){
-
             char guessChar = guess.charAt(0);
 
             if (Character.isLetter(guessChar)){
-
                 if (!hangman.hasUsedLetter(guessChar)) {
                     hangman.guess(guessChar);
-                    if (theme){
-                        changeImageHallowen();
-                    }else {
-                        changeImageDefault();
-                    }
+
+                    changeImage(theme);
+
                     wordView.setText(hangman.getHiddenWord());
                     triesView.setText(Integer.toString(hangman.getTriesLeft()));
                     guessesView.setText(hangman.getBadLetterUsed());
@@ -124,11 +130,12 @@ public class GameActivity extends AppCompatActivity {
                     alreadyUsedToast();
                 }
             }else{
-                onlyLettersToast();
+                 onlyLettersToast();
             }
         }else{
-           oneLetterToast();
+             oneLetterToast();
         }
+
         input.setText("");
 
         if (hangman.hasWon()){
@@ -139,145 +146,69 @@ public class GameActivity extends AppCompatActivity {
         }
     }
 
-    private void changeImageDefault(){
+    private void changeImage(boolean theme){
         int i = hangman.getTriesLeft();
-        switch (i){
-            case 1:
-                Picasso.get()
-                        .load("https://bddavin.github.io/HangManApp/hang1.gif")
-                        .into(imageView);
-                break;
-            case 2:
-                Picasso.get()
-                        .load("https://bddavin.github.io/HangManApp/hang2.gif")
-                        .into(imageView);
-                break;
-            case 3:
-                Picasso.get()
-                        .load("https://bddavin.github.io/HangManApp/hang3.gif")
-                        .into(imageView);
-                break;
-            case 4:
-                Picasso.get()
-                        .load("https://bddavin.github.io/HangManApp/hang4.gif")
-                        .into(imageView);
-                break;
-            case 5:
-                Picasso.get()
-                        .load("https://bddavin.github.io/HangManApp/hang5.gif")
-                        .into(imageView);
-                break;
-            case 6:
-                Picasso.get()
-                        .load("https://bddavin.github.io/HangManApp/hang6.gif")
-                        .into(imageView);
-                break;
-            case 7:
-                Picasso.get()
-                        .load("https://bddavin.github.io/HangManApp/hang7.gif")
-                        .into(imageView);
-                break;
-            case 8:
-                Picasso.get()
-                        .load("https://bddavin.github.io/HangManApp/hang8.gif")
-                        .into(imageView);
-                break;
-            case 9:
-                Picasso.get()
-                        .load("https://bddavin.github.io/HangManApp/hang9.gif")
-                        .into(imageView);
-                break;
-        }
-    }
-
-    private void changeImageHallowen(){
-        int i = hangman.getTriesLeft();
-        switch (i){
-            case 1:
-                Picasso.get()
-                        .load("https://bddavin.github.io/HangManApp/hangH1.png")
-                        .into(imageView);
-                break;
-            case 2:
-                Picasso.get()
-                        .load("https://bddavin.github.io/HangManApp/hangH2.png")
-                        .into(imageView);
-                break;
-            case 3:
-                Picasso.get()
-                        .load("https://bddavin.github.io/HangManApp/hangH3.png")
-                        .into(imageView);
-                break;
-            case 4:
-                Picasso.get()
-                        .load("https://bddavin.github.io/HangManApp/hangH4.png")
-                        .into(imageView);
-                break;
-            case 5:
-                Picasso.get()
-                        .load("https://bddavin.github.io/HangManApp/hangH5.png")
-                        .into(imageView);
-                break;
-            case 6:
-                Picasso.get()
-                        .load("https://bddavin.github.io/HangManApp/hangH6.png")
-                        .into(imageView);
-                break;
-            case 7:
-                Picasso.get()
-                        .load("https://bddavin.github.io/HangManApp/hangH7.png")
-                        .into(imageView);
-                break;
-            case 8:
-                Picasso.get()
-                        .load("https://bddavin.github.io/HangManApp/hangH8.png")
-                        .into(imageView);
-                break;
-            case 9:
-                Picasso.get()
-                        .load("https://bddavin.github.io/HangManApp/hangH9.png")
-                        .into(imageView);
-                break;
+        if (theme){
+            Picasso.get()
+                    .load("https://bddavin.github.io/HangManApp/hangH" + i + ".png")
+                    .into(imageView);
+        }else {
+            Picasso.get()
+                    .load("https://bddavin.github.io/HangManApp/hang" + i + ".gif")
+                    .into(imageView);
         }
     }
 
     private void loser() {
-        Intent intent = new Intent(this, ResultActivity.class);
-        intent.putExtra("result", getResources().getString(R.string.you_lost));
-        intent.putExtra("word", hangman.getRealWord());
-        intent.putExtra("tries", hangman.getTriesLeft());
-        startActivity(intent);
+        hangman.setResult(false);
+        ResultActivity fragment = new ResultActivity();
+
+        FragmentManager fM = getFragmentManager();
+        FragmentTransaction fT = fM.beginTransaction();
+
+        fT.replace(R.id.framelayout,fragment);
+        fT.addToBackStack(null);
+        fT.commit();
     }
 
     private void winner() {
-        Intent intent = new Intent(this, ResultActivity.class);
-        intent.putExtra("result", getResources().getString(R.string.you_won));
-        intent.putExtra("word", hangman.getRealWord());
-        intent.putExtra("tries", hangman.getTriesLeft());
-        startActivity(intent);
+        hangman.setResult(true);
+        ResultActivity fragment = new ResultActivity();
+
+        FragmentManager fM = getFragmentManager();
+        FragmentTransaction fT = fM.beginTransaction();
+
+        fT.replace(R.id.framelayout,fragment);
+        fT.addToBackStack(null);
+        fT.commit();
     }
 
     private void oneLetterToast() {
-        Toast myToast = Toast.makeText(this, "You can only enter ONE letter!",
+        Toast myToast = Toast.makeText(getContext(), "You can only enter ONE letter!",
                 Toast.LENGTH_SHORT);
         myToast.show();
     }
 
     private void alreadyUsedToast() {
-        Toast myToast = Toast.makeText(this, "You have already used this letter!",
+        Toast myToast = Toast.makeText(getContext(), "You have already used this letter!",
                 Toast.LENGTH_SHORT);
         myToast.show();
     }
 
     private void onlyLettersToast() {
-        Toast myToast = Toast.makeText(this, "You can only use letters!",
+        Toast myToast = Toast.makeText(getContext(), "You can only use letters!",
                 Toast.LENGTH_SHORT);
         myToast.show();
     }
 
-    public void showAbout(View view){
-        Intent intent = new Intent(this, AboutActivity.class);
-        startActivity(intent);
+    public void showAbout(){
+        AboutActivity fragment = new AboutActivity();
 
+        FragmentManager fM = getFragmentManager();
+        FragmentTransaction fT = fM.beginTransaction();
+
+        fT.replace(R.id.framelayout,fragment);
+        fT.addToBackStack(null);
+        fT.commit();
     }
 }

@@ -1,85 +1,133 @@
 package se.davin.hangmanapp;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
-public class ResultActivity extends AppCompatActivity {
+public class ResultActivity extends Fragment implements View.OnClickListener {
+
+    public ResultActivity() {}
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_result);
-        Toolbar t = findViewById(R.id.toolbar);
-        setSupportActionBar(t);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View v = inflater.inflate(R.layout.activity_result, container, false);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        Button playButton = v.findViewById(R.id.backButton);
+        playButton.setOnClickListener(this);
 
+        Button showButton = v.findViewById(R.id.newGame);
+        showButton.setOnClickListener(this);
+
+        setHasOptionsMenu(true);
+        return v;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
         showResults();
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main_menu, menu);
-        return true;
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.backButton:
+                mainMenu();
+                break;
+            case R.id.newGame:
+                playGame();
+                break;
+            default:
+                break;
+        }
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        menu.clear();
+        inflater.inflate(R.menu.main_menu, menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.play_arrow:
-                playGame(findViewById(R.id.button1));
+                playGame();
                 return true;
             case R.id.info:
-                showAbout(findViewById(R.id.button2));
+                showAbout();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
-    @Override
-    public boolean onSupportNavigateUp() {
-        mainMenu(findViewById(R.id.backButton));
-        return true;
-    }
-
     private void showResults() {
-        String result = getIntent().getStringExtra("result");
-        String word = getIntent().getStringExtra("word");
-        int triesLeft = getIntent().getIntExtra("tries", 0);
+        HangMan hang = HangMan.getInstance();
+        boolean winner = hang.getResult();
+        String result;
 
-        TextView resultView = findViewById(R.id.resultView);
-        TextView wordView = findViewById(R.id.resWordView);
-        TextView triesView = findViewById(R.id.resTriesView);
+        if (winner){
+            result = getString(R.string.you_won);
+        }else{
+            result = getString(R.string.you_lost);
+        }
+
+        String word = hang.getRealWord();
+        int triesLeft = hang.getTriesLeft();
+
+        TextView resultView = getView().findViewById(R.id.resultView);
+        TextView wordView = getView().findViewById(R.id.resWordView);
+        TextView triesView = getView().findViewById(R.id.resTriesView);
 
         resultView.setText(result);
         wordView.setText(word);
         triesView.setText(Integer.toString(triesLeft));
 
+        hang.setWord(null);
     }
 
-    public void mainMenu(View view){
-        Intent intent = new Intent(this,
-                MainActivity.class);
-        startActivity(intent);
+    public void mainMenu(){
+        MainActivity fragment = new MainActivity();
+
+        FragmentManager fM = getFragmentManager();
+        FragmentTransaction fT = fM.beginTransaction();
+
+        fT.replace(R.id.framelayout,fragment);
+        fT.addToBackStack(null);
+        fT.commit();
     }
 
-    public void playGame(View view){
-        Intent intent = new Intent(this,
-                GameActivity.class);
-        startActivity(intent);
+    public void playGame(){
+        GameActivity fragment = new GameActivity();
+
+        FragmentManager fM = getFragmentManager();
+        FragmentTransaction fT = fM.beginTransaction();
+
+        fT.replace(R.id.framelayout,fragment);
+        fT.addToBackStack(null);
+        fT.commit();
     }
 
-    public void showAbout(View view){
-        Intent intent = new Intent(this,
-                AboutActivity.class);
-        startActivity(intent);
+    public void showAbout(){
+        AboutActivity fragment = new AboutActivity();
+
+        FragmentManager fM = getFragmentManager();
+        FragmentTransaction fT = fM.beginTransaction();
+
+        fT.replace(R.id.framelayout,fragment);
+        fT.addToBackStack(null);
+        fT.commit();
     }
 }

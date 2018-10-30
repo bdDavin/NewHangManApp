@@ -6,17 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".AboutActivity">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <TextView
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
@@ -41,7 +30,7 @@
         android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/textView4"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/themeRadio"
@@ -60,17 +49,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:onClick="onRadioButtonClicked"
             android:text="Default"
             app:layout_constraintStart_toEndOf="@+id/textView5"
             app:layout_constraintTop_toTopOf="@+id/textView5" />
 
         <RadioButton
-            android:id="@+id/defaultHallo"
+            android:id="@+id/halloweenTheme"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:onClick="onRadioButtonClicked"
             android:text="Halloween"
             app:layout_constraintStart_toEndOf="@+id/defaultTheme"
             app:layout_constraintTop_toTopOf="@+id/defaultTheme" />
